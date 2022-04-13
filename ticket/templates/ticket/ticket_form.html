@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+
+    <h1>Add new ticket</h1>
+    <div class="brick">
+        <form method="post">
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <div class="vertical-center">
+                <button type="submit" class="button green-button">Add new ticket</button>
+            </div>
+        </form>
+    </div>
+
+{% endblock %}

@@ -2,5 +2,32 @@
 
 {% block content %}
 
+    <div class="vertical-center">
+        <a href='{% url "addticket" %}' class="button green-button big-button">+ Add new ticket</a>
+    </div>
+
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Reporting period</th>
+            <th>Type</th>
+            <th>Model</th>
+            <th>Status</th>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>202203</td>
+            <td>MVBS_SII</td>
+            <td>Trad_PWZW, Trad_OR</td>
+            <td>new</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>202112</td>
+            <td>Hedge</td>
+            <td>AVN</td>
+            <td>running</td>
+        </tr>
+    </table>
 
 {% endblock %}

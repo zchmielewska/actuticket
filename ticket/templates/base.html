@@ -1,10 +1,22 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>actuticket</title>
+    <link rel="stylesheet" href="{% static "css/styles.css" %}">
 </head>
 <body>
-    {% block content %}{% endblock %}
+    <div class="space-gray-dark">
+        <nav>
+            <a href="/">actu<span style="font-weight: bold;">ticket</span></a>
+        </nav>
+    </div>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
 </body>
 </html>

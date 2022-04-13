@@ -39,6 +39,7 @@ class Ticket(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     claimed_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="claim_user")
     claimed_at = models.DateTimeField(auto_now_add=True)
+    finished_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="finish_user")
     finished_at = models.DateTimeField(auto_now_add=True)
-    status = models.IntegerField(choices=STATUS)
+    status = models.IntegerField(choices=STATUS, default=1)
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE)

@@ -8,3 +8,6 @@ class ModelAdmin(admin.ModelAdmin):
     list_display = ("id", "name")
 
 
+@admin.register(models.Type)
+class TypeAdmin(admin.ModelAdmin):
+    list_display = ("id", "name")
