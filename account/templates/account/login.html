@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Log-in</h1>
+
+    <div class="brick brick-narrow">
+        {% if form.errors %}
+            <p>Your username and password didn't match. Please try again.</p>
+        {% endif %}
+
+        <form action="{% url "account:login" %}" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="hidden" name="next" value="{{ next }}" />
+            <div class="vertical-center">
+                <input type="submit" value="Log in" class="button gray-button">
+            </div>
+        </form>
+        <p>Forgotten password? <a href="{% url "account:password_reset" %}" class="link">Reset your password.</a></p>
+        <p>No account yet? <a href="{% url "account:register" %}" class="link">Register here.</a></p>
+    </div>
+
+{% endblock %}

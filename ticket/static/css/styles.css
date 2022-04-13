@@ -12,6 +12,10 @@ body {
     font-family: 'Ubuntu', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', sans-serif;
 }
 
+.topbar {
+    background-color: #343d46;
+}
+
 nav, main {
     width: 1024px;
     margin-left: auto;
@@ -33,6 +37,12 @@ nav > a:hover {
   padding: 24px;
   margin-bottom: 24px;
   box-shadow: rgba(149, 157, 165, 0.2) 0 8px 24px;
+}
+
+.brick-narrow {
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 h1 {
@@ -84,6 +94,15 @@ th, td {
     background-color: rgba(11, 102, 35, 0.2);
 }
 
+.gray-button {
+    border-color: rgba(66, 66, 66, 0.75);
+    color: rgba(66, 66, 66, 0.75);
+}
+
+.gray-button:hover {
+    background-color: rgba(66, 66, 66, 0.2);
+}
+
 .big-button {
     font-size: 1em;
     padding: 8px;
@@ -109,15 +128,13 @@ label {
     justify-content: center;
 }
 
-/* colors */
-.blue {
-    background-color: #0079c1;
+
+.link {
+  font-weight: bold;
+  font-size: 0.9em;
 }
 
-.space-gray-dark {
-    background-color: #343d46;
-}
-
-.space-gray-medium {
-    background-color: #4f5b66;
+.link:hover {
+  color: #0079c1;
+  cursor: pointer;
 }
