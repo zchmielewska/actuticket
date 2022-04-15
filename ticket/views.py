@@ -1,6 +1,7 @@
 import datetime
 
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import View
@@ -11,7 +12,18 @@ from ticket import forms, models
 class MainView(View):
     def get(self, request):
         tickets = models.Ticket.objects.all()
-        return render(request, "ticket/main.html", {"tickets": tickets})
+
+        paginator = Paginator(tickets, 20)
+        page = request.GET.get("page")
+
+        try:
+            tickets = paginator.page(page)
+        except PageNotAnInteger:
+            tickets = paginator.page(1)
+        except EmptyPage:
+            tickets = paginator.page(paginator.num_pages)
+
+        return render(request, "ticket/main.html", {"page": page, "tickets": tickets})
 
 
 class AddTicketView(LoginRequiredMixin, View):
