@@ -13,19 +13,37 @@
             <th>Type</th>
             <th>Model</th>
             <th>Status</th>
+            <th>Person</th>
+            <th>Time</th>
         </tr>
 
         {% for ticket in tickets %}
         <tr style='cursor: pointer;' onclick="window.location='{% url "ticket_detail" ticket.id %}';">
             <td>{{ ticket.id }}</td>
-            <td>{{ ticket.year}} {{ ticket.month }}</td>
+            <td>{{ ticket.year}}{{ ticket.month|stringformat:"02d" }}</td>
             <td>{{ ticket.type }}</td>
             <td>
-                {% for model in ticket.model.all %}
-                    {{ model }}
-                {% endfor %}
+                {% if ticket.model.count == 1 %}
+                    {{ ticket.model.first }}
+                {% else %}
+                    {{ ticket.model.count }} models
+                {% endif %}
             </td>
-            <td>{{ ticket.get_status_display }}</td>
+
+            {% if ticket.status == 1 %}
+                <td style="color: rgba(220, 53, 69, 0.75); font-weight: bold;">{{ ticket.get_status_display }}</td>
+                <td>{{ ticket.created_by.first_name }}</td>
+                <td>{{ ticket.created_at|date:'Y-m-d H:i' }}</td>
+            {% elif ticket.status == 2 %}
+                <td style="color: rgba(255, 121, 0, 0.75); font-weight: bold;">{{ ticket.get_status_display }}</td>
+                <td>{{ ticket.undertook_by.first_name }}</td>
+                <td>{{ ticket.undertook_at|date:'Y-m-d H:i' }}</td>
+            {% elif ticket.status == 3 %}
+                <td style="color: rgba(11, 102, 35, 0.75); font-weight: bold;">{{ ticket.get_status_display }}</td>
+                <td>{{ ticket.closed_by.first_name }}</td>
+                <td>{{ ticket.closed_at|date:'Y-m-d H:i' }}</td>
+            {% endif %}
+
         </tr>
         {% endfor %}
     </table>

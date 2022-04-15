@@ -10,11 +10,11 @@ from ticket import forms, models
 from ticket.utils.utils import send_mail_to_all
 
 
-class MainView(View):
+class MainView(LoginRequiredMixin, View):
     def get(self, request):
         tickets = models.Ticket.objects.all()
 
-        paginator = Paginator(tickets, 20)
+        paginator = Paginator(tickets, 15)
         page = request.GET.get("page")
 
         try:
@@ -66,7 +66,7 @@ class UndertakeTicketView(LoginRequiredMixin, View):
 
         # Inform users
         subject = f"Ticket {ticket.id} is undertaken"
-        message = f"{ticket.undertaken_by.first_name} {ticket.undertaken_by.last_name} undertook ticket {ticket.id}."
+        message = f"{ticket.undertook_by.first_name} {ticket.undertook_by.last_name} undertook ticket {ticket.id}."
         send_mail_to_all(subject, message, "user@example.com")
 
         return redirect("ticket_detail", ticket.id)

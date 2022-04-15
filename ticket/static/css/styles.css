@@ -130,6 +130,15 @@ th, td {
     background-color: rgba(66, 66, 66, 0.2);
 }
 
+.red-button {
+    border-color: rgba(220, 53, 69, 0.75);
+    color: rgba(220, 53, 69, 0.75);
+}
+
+.red-button:hover {
+    background-color: rgba(220, 53, 69, 0.2);
+}
+
 .big-button {
     font-size: 1em;
     padding: 8px;
@@ -141,18 +150,25 @@ select, input[type=text], input[type=password], input[type=email], textarea {
   width: 100%;
 }
 
-label {
+label, .label {
   font-size: 0.8em;
   color: #666;
   width: 100%;
   display: inline-block;
 }
 
+
+form ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+
 /* pagination */
 .pagination {
   font-weight: bold;
   vertical-align: middle;
-  margin-top: 12px;
+  margin: 12px 0 12px 0;
 }
 
 .pagination div {
@@ -174,7 +190,6 @@ label {
     display: flex;
     justify-content: center;
 }
-
 
 .link {
   font-weight: bold;
