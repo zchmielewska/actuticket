@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block content %}
+
+    <h1>Ticket {{ ticket.id }}</h1>
+    <div class="brick">
+        <p>
+            <span>Status:</span><br>
+            <span>{{ ticket.get_status_display }}</span>
+        </p>
+
+        <p>
+            <span>Reporting date:</span><br>
+            <span>{{ ticket.year }}{{ ticket.month }}</span>
+        </p>
+
+        <p>
+            <span>Models:</span><br>
+            <span>
+                <ul>
+                    {% for model in ticket.model.all %}
+                        <li>{{ model }}</li>
+                    {% endfor %}
+                </ul>
+            </span>
+        </p>
+
+        <p>
+            <span>Type:</span><br>
+            <span>{{ ticket.type }}</span>
+        </p>
+
+        <p>
+            <span>Version:</span><br>
+            <span>{{ ticket.version }}</span>
+        </p>
+
+        <p>
+            <span>History:</span><br>
+            <ul>
+            <li>created by {{ ticket.created_by.first_name }} {{ ticket.created_by.last_name }} at {{ ticket.created_at }}</li>
+            {% if claimed_by %}
+                <li>claimed by {{ ticket.claimed_by.first_name }} {{ ticket.claimed_by.last_name }} at {{ ticket.claimed_at }}</li>
+            {% endif %}
+            {% if finished_by %}
+                <li>finished by {{ ticket.finished_by.first_name }} {{ ticket.finished_by.last_name }} at {{ ticket.finished_at }}</li>
+            {% endif %}
+            </ul>
+        </p>
+
+    </div>
+
+{% endblock %}

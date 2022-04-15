@@ -48,11 +48,14 @@ class RegisterView(View):
     The app uses e-mail address to authenticate so username is a consecutive number.
     """
     def get(self, request):
+        print("I'm in get")
+
         form = RegistrationForm()
         return render(request, "account/register.html", {"form": form})
 
     def post(self, request):
         form = RegistrationForm(request.POST)
+        print("form.is_valid(): ", form.is_valid())
         if form.is_valid():
             new_user = form.save(commit=False)
             new_user.username = str(User.objects.count() + 1)

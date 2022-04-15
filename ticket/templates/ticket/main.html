@@ -3,7 +3,7 @@
 {% block content %}
 
     <div class="vertical-center">
-        <a href='{% url "addticket" %}' class="button green-button big-button">+ Add new ticket</a>
+        <a href='{% url "add_ticket" %}' class="button green-button big-button">+ Add new ticket</a>
     </div>
 
     <table>
@@ -14,20 +14,20 @@
             <th>Model</th>
             <th>Status</th>
         </tr>
-        <tr>
-            <td>1</td>
-            <td>202203</td>
-            <td>MVBS_SII</td>
-            <td>Trad_PWZW, Trad_OR</td>
-            <td>new</td>
+
+        {% for ticket in tickets %}
+        <tr style='cursor: pointer;' onclick="window.location='{% url "ticket_detail" ticket.id %}';">
+            <td>{{ ticket.id }}</td>
+            <td>{{ ticket.year}} {{ ticket.month }}</td>
+            <td>{{ ticket.type }}</td>
+            <td>
+                {% for model in ticket.model.all %}
+                    {{ model }}
+                {% endfor %}
+            </td>
+            <td>{{ ticket.get_status_display }}</td>
         </tr>
-        <tr>
-            <td>2</td>
-            <td>202112</td>
-            <td>Hedge</td>
-            <td>AVN</td>
-            <td>running</td>
-        </tr>
+        {% endfor %}
     </table>
 
 {% endblock %}
