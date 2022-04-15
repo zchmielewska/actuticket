@@ -7,6 +7,7 @@ from django.urls import reverse_lazy
 from django.views import View
 
 from ticket import forms, models
+from ticket.utils.utils import send_mail_to_all
 
 
 class MainView(View):
@@ -38,6 +39,13 @@ class AddTicketView(LoginRequiredMixin, View):
             ticket.created_by = request.user
             ticket.save()
             form.save_m2m()
+
+            # Inform users
+            subject = f"New ticket {ticket.id}"
+            message = f"{ticket.created_by.first_name} {ticket.created_by.last_name} has created a new ticket " \
+                      f"{ticket.id}."
+            send_mail_to_all(subject, message, "user@example.com")
+
             return redirect(reverse_lazy("main"))
         return render(request, "ticket/ticket_form.html", {"form": form})
 
@@ -55,6 +63,12 @@ class UndertakeTicketView(LoginRequiredMixin, View):
         ticket.undertook_at = datetime.datetime.now()
         ticket.status = 2
         ticket.save()
+
+        # Inform users
+        subject = f"Ticket {ticket.id} is undertaken"
+        message = f"{ticket.undertaken_by.first_name} {ticket.undertaken_by.last_name} undertook ticket {ticket.id}."
+        send_mail_to_all(subject, message, "user@example.com")
+
         return redirect("ticket_detail", ticket.id)
 
 
@@ -65,6 +79,12 @@ class CloseTicketView(LoginRequiredMixin, View):
         ticket.closed_at = datetime.datetime.now()
         ticket.status = 3
         ticket.save()
+
+        # Inform users
+        subject = f"Ticket {ticket.id} is closed"
+        message = f"{ticket.closed_by.first_name} {ticket.closed_by.last_name} closed ticket {ticket.id}."
+        send_mail_to_all(subject, message, "user@example.com")
+
         return redirect("ticket_detail", ticket.id)
 
 
@@ -83,5 +103,11 @@ class AddCommentView(LoginRequiredMixin, View):
             comment.written_at = datetime.datetime.now()
             comment.ticket = ticket
             comment.save()
+
+            # Inform users
+            subject = f"New comment for ticket {ticket.id}"
+            message = f"{comment.written_by} {comment.written_at} added comment to ticket {ticket.id}."
+            send_mail_to_all(subject, message, "user@example.com")
+
             return redirect("ticket_detail", ticket.id)
         return redirect("main", ticket.id)
