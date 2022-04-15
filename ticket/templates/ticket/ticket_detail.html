@@ -58,6 +58,19 @@
                 <a href="{% url 'close_ticket' ticket.id %}" class="button green-button">Close ticket</a>
             </div>
         {% endif %}
+
+        <hr>
+
+        <h2>Comments</h2>
+
+        <a href="{% url 'add_comment' ticket.id %}">Add comment</a>
+
+        {% for comment in ticket.comment_set.all %}
+            <p>
+                <span>{{ comment.written_by }} at {{ comment.written_at }}:</span><br>
+                <span>{{ comment.message }}</span>
+            </p>
+        {% endfor %}
     </div>
 
 {% endblock %}

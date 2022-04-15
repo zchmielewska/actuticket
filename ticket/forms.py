@@ -10,3 +10,9 @@ class TicketForm(forms.ModelForm):
         widgets = {
             "deadline": forms.DateInput(attrs={"type": "date"}),
         }
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = models.Comment
+        fields = ("message", )

@@ -23,12 +23,6 @@ class Type(models.Model):
         return f"{self.name}"
 
 
-class Comment(models.Model):
-    written_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="write_user")
-    written_at = models.DateTimeField(auto_now_add=True)
-    message = models.TextField()
-
-
 class Ticket(models.Model):
     model = models.ManyToManyField(Model)
     type = models.ForeignKey(Type, on_delete=models.CASCADE)
@@ -43,7 +37,16 @@ class Ticket(models.Model):
     closed_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="close_user", null=True)
     closed_at = models.DateTimeField(null=True)
     status = models.IntegerField(choices=STATUS, default=1)
-    comment = models.ForeignKey(Comment, on_delete=models.CASCADE, null=True)
 
     class Meta:
         ordering = ["-id"]
+
+
+class Comment(models.Model):
+    written_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="write_user")
+    written_at = models.DateTimeField(auto_now_add=True)
+    message = models.TextField()
+    ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
+
+    class Meta:
+        ordering = ["-written_at"]

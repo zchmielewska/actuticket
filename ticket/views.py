@@ -66,3 +66,22 @@ class CloseTicketView(LoginRequiredMixin, View):
         ticket.status = 3
         ticket.save()
         return redirect("ticket_detail", ticket.id)
+
+
+class AddCommentView(LoginRequiredMixin, View):
+    def get(self, request, ticket_id):
+        form = forms.CommentForm
+        return render(request, "ticket/comment_form.html", {"form": form})
+
+    def post(self, request, ticket_id):
+        ticket = get_object_or_404(models.Ticket, id=ticket_id)
+        form = forms.CommentForm(request.POST)
+
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.written_by = request.user
+            comment.written_at = datetime.datetime.now()
+            comment.ticket = ticket
+            comment.save()
+            return redirect("ticket_detail", ticket.id)
+        return redirect("main", ticket.id)
