@@ -38,15 +38,26 @@
             <span>History:</span><br>
             <ul>
             <li>created by {{ ticket.created_by.first_name }} {{ ticket.created_by.last_name }} at {{ ticket.created_at }}</li>
-            {% if claimed_by %}
-                <li>claimed by {{ ticket.claimed_by.first_name }} {{ ticket.claimed_by.last_name }} at {{ ticket.claimed_at }}</li>
+            {% if ticket.status > 1 %}
+                <li>undertook by {{ ticket.undertook_by.first_name }} {{ ticket.undertook_by.last_name }} at {{ ticket.undertook_at }}</li>
             {% endif %}
-            {% if finished_by %}
-                <li>finished by {{ ticket.finished_by.first_name }} {{ ticket.finished_by.last_name }} at {{ ticket.finished_at }}</li>
+            {% if ticket.status > 2 %}
+                <li>closed by {{ ticket.closed_by.first_name }} {{ ticket.closed_by.last_name }} at {{ ticket.closed_at }}</li>
             {% endif %}
             </ul>
         </p>
 
+        {% if ticket.status == 1 %}
+            <div class="vertical-center">
+                <a href="{% url 'undertake_ticket' ticket.id %}" class="button green-button">Undertake task</a>
+            </div>
+        {% endif %}
+
+        {% if ticket.status == 2 %}
+            <div class="vertical-center">
+                <a href="{% url 'close_ticket' ticket.id %}" class="button green-button">Close ticket</a>
+            </div>
+        {% endif %}
     </div>
 
 {% endblock %}

@@ -4,8 +4,8 @@ from datetime import date
 
 STATUS = (
     (1, "new"),
-    (2, "running"),
-    (3, "finished"),
+    (2, "in progress"),
+    (3, "closed"),
 )
 
 
@@ -38,10 +38,10 @@ class Ticket(models.Model):
     deadline = models.DateTimeField()
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="create_user")
     created_at = models.DateTimeField(auto_now=True)
-    claimed_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="claim_user", null=True)
-    claimed_at = models.DateTimeField(null=True)
-    finished_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="finish_user", null=True)
-    finished_at = models.DateTimeField(null=True)
+    undertook_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="undertake_user", null=True)
+    undertook_at = models.DateTimeField(null=True)
+    closed_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="close_user", null=True)
+    closed_at = models.DateTimeField(null=True)
     status = models.IntegerField(choices=STATUS, default=1)
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE, null=True)
 
