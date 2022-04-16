@@ -39,6 +39,11 @@
         </p>
 
         <p>
+            <span class="label">Additional information</span><br>
+            <span>{{ ticket.information|linebreaks }}</span>
+        </p>
+
+        <p>
             <span class="label">History</span><br>
             <ul>
                 <li>{{ ticket.created_at|date:'Y-m-d H:i' }} created by

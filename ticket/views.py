@@ -37,6 +37,7 @@ class AddTicketView(LoginRequiredMixin, View):
         if form.is_valid():
             ticket = form.save(commit=False)
             ticket.created_by = request.user
+            ticket.created_at = datetime.datetime.now()
             ticket.save()
             form.save_m2m()
 

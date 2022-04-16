@@ -31,12 +31,13 @@ class Ticket(models.Model):
     month = models.PositiveIntegerField(default=date.today().month-1, verbose_name="reporting month")
     deadline = models.DateTimeField()
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="create_user")
-    created_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField()
     undertook_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="undertake_user", null=True)
     undertook_at = models.DateTimeField(null=True)
     closed_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="close_user", null=True)
     closed_at = models.DateTimeField(null=True)
     status = models.IntegerField(choices=STATUS, default=1)
+    information = models.TextField(verbose_name="additional information", null=True, blank=True)
 
     class Meta:
         ordering = ["-id"]
