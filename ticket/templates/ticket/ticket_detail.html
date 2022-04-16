@@ -16,7 +16,7 @@
 
         <p>
             <span class="label">Reporting date</span><br>
-            <span>{{ ticket.year }}{{ ticket.month }}</span>
+            <span>{{ ticket.year }}{{ ticket.month|stringformat:"02d" }}</span>
         </p>
 
         <p>
@@ -81,7 +81,7 @@
         {% for comment in ticket.comment_set.all %}
             <p>
                 <span class="label">{{ comment.written_at|date:'Y-m-d H:i' }} by {{ comment.written_by }}</span><br>
-                <span>{{ comment.message }}</span>
+                <span>{{ comment.message|linebreaks }}</span>
             </p>
         {% endfor %}
     </div>

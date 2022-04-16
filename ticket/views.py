@@ -45,7 +45,7 @@ class AddTicketView(LoginRequiredMixin, View):
             subject = f"New ticket {ticket.id}"
             message = f"{ticket.created_by.first_name} {ticket.created_by.last_name} has created a new ticket " \
                       f"{ticket.id}."
-            send_mail_to_all(subject, message, "user@example.com")
+            send_mail_to_all(subject, message)
 
             return redirect(reverse_lazy("main"))
         return render(request, "ticket/ticket_form.html", {"form": form})
@@ -68,7 +68,7 @@ class UndertakeTicketView(LoginRequiredMixin, View):
         # Inform users
         subject = f"Ticket {ticket.id} is undertaken"
         message = f"{ticket.undertook_by.first_name} {ticket.undertook_by.last_name} undertook ticket {ticket.id}."
-        send_mail_to_all(subject, message, "user@example.com")
+        send_mail_to_all(subject, message)
 
         return redirect("ticket_detail", ticket.id)
 
@@ -84,7 +84,7 @@ class CloseTicketView(LoginRequiredMixin, View):
         # Inform users
         subject = f"Ticket {ticket.id} is closed"
         message = f"{ticket.closed_by.first_name} {ticket.closed_by.last_name} closed ticket {ticket.id}."
-        send_mail_to_all(subject, message, "user@example.com")
+        send_mail_to_all(subject, message)
 
         return redirect("ticket_detail", ticket.id)
 
@@ -108,7 +108,7 @@ class AddCommentView(LoginRequiredMixin, View):
             # Inform users
             subject = f"New comment for ticket {ticket.id}"
             message = f"{comment.written_by} {comment.written_at} added comment to ticket {ticket.id}."
-            send_mail_to_all(subject, message, "user@example.com")
+            send_mail_to_all(subject, message)
 
             return redirect("ticket_detail", ticket.id)
         return redirect("main", ticket.id)
