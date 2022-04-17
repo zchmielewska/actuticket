@@ -45,7 +45,7 @@ class Ticket(models.Model):
 
 class Comment(models.Model):
     written_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="write_user")
-    written_at = models.DateTimeField(auto_now_add=True)
+    written_at = models.DateTimeField()
     message = models.TextField()
     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
 
