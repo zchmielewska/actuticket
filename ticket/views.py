@@ -7,7 +7,7 @@ from django.urls import reverse_lazy
 from django.views import View
 
 from ticket import forms, models
-from ticket.utils.utils import send_mail_to_all
+from .tasks import send_mail_to_all
 
 
 class MainView(LoginRequiredMixin, View):
@@ -42,10 +42,10 @@ class AddTicketView(LoginRequiredMixin, View):
             form.save_m2m()
 
             # Inform users
-            subject = f"New ticket {ticket.id}"
+            subject = f"actuticket | new ticket {ticket.id}"
             message = f"{ticket.created_by.first_name} {ticket.created_by.last_name} has created a new ticket " \
                       f"{ticket.id}."
-            send_mail_to_all(subject, message)
+            send_mail_to_all.delay(subject, message)
 
             return redirect(reverse_lazy("main"))
         return render(request, "ticket/ticket_form.html", {"form": form})
@@ -66,9 +66,9 @@ class UndertakeTicketView(LoginRequiredMixin, View):
         ticket.save()
 
         # Inform users
-        subject = f"Ticket {ticket.id} is undertaken"
+        subject = f"actuticket | ticket {ticket.id} is undertaken"
         message = f"{ticket.undertook_by.first_name} {ticket.undertook_by.last_name} undertook ticket {ticket.id}."
-        send_mail_to_all(subject, message)
+        send_mail_to_all.delay(subject, message)
 
         return redirect("ticket_detail", ticket.id)
 
@@ -82,9 +82,9 @@ class CloseTicketView(LoginRequiredMixin, View):
         ticket.save()
 
         # Inform users
-        subject = f"Ticket {ticket.id} is closed"
+        subject = f"actuticket | ticket {ticket.id} is closed"
         message = f"{ticket.closed_by.first_name} {ticket.closed_by.last_name} closed ticket {ticket.id}."
-        send_mail_to_all(subject, message)
+        send_mail_to_all.delay(subject, message)
 
         return redirect("ticket_detail", ticket.id)
 
@@ -106,9 +106,9 @@ class AddCommentView(LoginRequiredMixin, View):
             comment.save()
 
             # Inform users
-            subject = f"New comment for ticket {ticket.id}"
+            subject = f"actuticket | new comment for ticket {ticket.id}"
             message = f"{comment.written_by} {comment.written_at} added comment to ticket {ticket.id}."
-            send_mail_to_all(subject, message)
+            send_mail_to_all.delay(subject, message)
 
             return redirect("ticket_detail", ticket.id)
         return redirect("main", ticket.id)
