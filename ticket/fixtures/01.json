@@ -1,0 +1,42 @@
+[
+  {
+    "model": "auth.User",
+    "pk": 1,
+    "fields": {
+      "username":  "test_user",
+      "password": "1234",
+      "email": "user@example.com"
+    }
+  },
+
+  {
+    "model": "ticket.model",
+    "pk": 1,
+    "fields": {
+      "name": "Annuity"
+    }
+  },
+
+  {
+    "model": "ticket.type",
+    "pk": 1,
+    "fields": {
+      "name": "Balance Sheet"
+    }
+  },
+
+   {
+    "model": "ticket.ticket",
+    "pk": 1,
+    "fields": {
+      "model": [1],
+      "type_id": 1,
+      "version": "1-50",
+      "year": 2022,
+      "month": 3,
+      "deadline": "2022-04-05 06:00Z",
+      "created_by_id": 1,
+      "created_at": "2022-04-04 06:00Z"
+    }
+  }
+]

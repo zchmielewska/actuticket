@@ -11,6 +11,7 @@ from .tasks import send_mail_to_all
 
 
 class MainView(LoginRequiredMixin, View):
+    """Main page of the app with the list of new tickets."""
     def get(self, request):
         tickets = models.Ticket.objects.all()
 
@@ -28,12 +29,20 @@ class MainView(LoginRequiredMixin, View):
 
 
 class AddTicketView(LoginRequiredMixin, View):
+    """
+    Form to add a new ticket.
+
+    The form uses save_m2m() because it has many-to-many relationship with models.
+    The users are informed about the new ticket by e-mail (using celery to avoid long waiting time).
+    """
     def get(self, request):
         form = forms.TicketForm
         return render(request, "ticket/ticket_form.html", {"form": form})
 
     def post(self, request):
         form = forms.TicketForm(request.POST)
+        print("form_is_valid:", form.is_valid())
+        print("form_errors:", form.errors)
         if form.is_valid():
             ticket = form.save(commit=False)
             ticket.created_by = request.user
@@ -52,12 +61,14 @@ class AddTicketView(LoginRequiredMixin, View):
 
 
 class TicketDetailView(LoginRequiredMixin, View):
+    """View with ticket's details."""
     def get(self, request, ticket_id):
         ticket = get_object_or_404(models.Ticket, id=ticket_id)
         return render(request, "ticket/ticket_detail.html", {"ticket": ticket})
 
 
 class UndertakeTicketView(LoginRequiredMixin, View):
+    """View to undertake ticket."""
     def get(self, request, ticket_id):
         ticket = get_object_or_404(models.Ticket, id=ticket_id)
         ticket.undertook_by = request.user
@@ -74,8 +85,12 @@ class UndertakeTicketView(LoginRequiredMixin, View):
 
 
 class CloseTicketView(LoginRequiredMixin, View):
+    """View to close ticket."""
     def get(self, request, ticket_id):
         ticket = get_object_or_404(models.Ticket, id=ticket_id)
+        if ticket.status != 2:
+            return redirect("ticket_detail", ticket.id)
+
         ticket.closed_by = request.user
         ticket.closed_at = datetime.datetime.now()
         ticket.status = 3
@@ -90,6 +105,7 @@ class CloseTicketView(LoginRequiredMixin, View):
 
 
 class AddCommentView(LoginRequiredMixin, View):
+    """Form to add comment to a ticket."""
     def get(self, request, ticket_id):
         form = forms.CommentForm
         return render(request, "ticket/comment_form.html", {"form": form})

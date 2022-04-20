@@ -1,0 +1,17 @@
+[run]
+include =
+    ./ticket/*
+    ./account/*
+omit =
+    ./account/admin.py
+    ./account/apps.py
+    ./account/models.py
+    ./account/urls.py
+    ./ticket/admin.py
+    ./ticket/apps.py
+    ./ticket/forms.py
+    ./ticket/migrations/*
+    ./ticket/models.py
+    ./ticket/urls.py
+    *__init__.py*
+    *tests.py*
