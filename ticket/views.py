@@ -1,9 +1,8 @@
-import datetime
-
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
+from django.utils import timezone
 from django.views import View
 
 from ticket import forms, models
@@ -46,7 +45,7 @@ class AddTicketView(LoginRequiredMixin, View):
         if form.is_valid():
             ticket = form.save(commit=False)
             ticket.created_by = request.user
-            ticket.created_at = datetime.datetime.now()
+            ticket.created_at = timezone.now()
             ticket.save()
             form.save_m2m()
 
@@ -72,7 +71,7 @@ class UndertakeTicketView(LoginRequiredMixin, View):
     def get(self, request, ticket_id):
         ticket = get_object_or_404(models.Ticket, id=ticket_id)
         ticket.undertook_by = request.user
-        ticket.undertook_at = datetime.datetime.now()
+        ticket.undertook_at = timezone.now()
         ticket.status = 2
         ticket.save()
 
@@ -92,7 +91,7 @@ class CloseTicketView(LoginRequiredMixin, View):
             return redirect("ticket_detail", ticket.id)
 
         ticket.closed_by = request.user
-        ticket.closed_at = datetime.datetime.now()
+        ticket.closed_at = timezone.now()
         ticket.status = 3
         ticket.save()
 
@@ -117,7 +116,7 @@ class AddCommentView(LoginRequiredMixin, View):
         if form.is_valid():
             comment = form.save(commit=False)
             comment.written_by = request.user
-            comment.written_at = datetime.datetime.now()
+            comment.written_at = timezone.now()
             comment.ticket = ticket
             comment.save()
 
