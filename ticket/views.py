@@ -40,8 +40,6 @@ class AddTicketView(LoginRequiredMixin, View):
 
     def post(self, request):
         form = forms.TicketForm(request.POST)
-        print("form_is_valid:", form.is_valid())
-        print("form_errors:", form.errors)
         if form.is_valid():
             ticket = form.save(commit=False)
             ticket.created_by = request.user
