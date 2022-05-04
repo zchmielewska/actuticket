@@ -11,6 +11,9 @@ class TicketForm(forms.ModelForm):
             "deadline": forms.DateInput(attrs={"type": "date"}),
             "model": forms.CheckboxSelectMultiple(),
         }
+        help_texts = {
+            "information": "E.g. path to the zip file with assumptions",
+        }
 
 
 class CommentForm(forms.ModelForm):

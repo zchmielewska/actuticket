@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.mail import send_mail
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
@@ -120,7 +121,7 @@ class AddCommentView(LoginRequiredMixin, View):
 
             # Inform users
             subject = f"actuticket | new comment for ticket {ticket.id}"
-            message = f"{comment.written_by} {comment.written_at} added comment to ticket {ticket.id}."
+            message = f"{comment.written_by} added comment to ticket {ticket.id}."
             send_mail_to_all.delay(subject, message)
 
             return redirect("ticket_detail", ticket.id)

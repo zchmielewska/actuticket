@@ -163,6 +163,15 @@ form ul {
     padding: 0;
 }
 
+.helptext, form ul {
+    font-size: 0.8em;
+    color: #999;
+}
+
+form > ul.errorlist {
+    font-size: 0.8em;
+    color: rgba(220, 53, 69, 1);
+}
 
 /* pagination */
 .pagination {

@@ -5,8 +5,8 @@ from django.core.mail import send_mail
 
 
 @shared_task
-def send_mail_to_all(subject, message, from_email=settings.EMAIL_HOST_USER):
+def send_mail_to_all(subject, message, from_email=settings.DEFAULT_FROM_EMAIL):
     receivers = []
     for user in User.objects.all():
         receivers.append(user.email)
-    send_mail(subject, message, from_email, receivers)
+    send_mail(subject, message, from_email, receivers, fail_silently=False)
