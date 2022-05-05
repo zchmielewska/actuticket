@@ -1,8 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
 
-    <h1>Ticket {{ ticket.id }}</h1>
+    <h1>{{ ticket.title }}</h1>
     <div class="brick">
+        <p>
+            <span class="label">Ticket ID</span><br>
+            <span>{{ ticket.id }}</span>
+        </p>
+
         <p>
             <span class="label">Status</span><br>
             {% if ticket.status == 1 %}
