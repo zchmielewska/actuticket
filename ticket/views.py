@@ -1,5 +1,4 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.mail import send_mail
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
@@ -36,7 +35,11 @@ class AddTicketView(LoginRequiredMixin, View):
     The users are informed about the new ticket by e-mail (using celery to avoid long waiting time).
     """
     def get(self, request):
-        form = forms.TicketForm
+        initial_dict = {
+            "model": models.Model.objects.all()
+        }
+
+        form = forms.TicketForm(initial=initial_dict)
         return render(request, "ticket/ticket_form.html", {"form": form})
 
     def post(self, request):

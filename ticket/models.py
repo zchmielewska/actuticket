@@ -24,6 +24,7 @@ class Type(models.Model):
 
 
 class Ticket(models.Model):
+    title = models.CharField(max_length=128, verbose_name="run title")
     model = models.ManyToManyField(Model)
     type = models.ForeignKey(Type, on_delete=models.CASCADE)
     version = models.CharField(max_length=128)
