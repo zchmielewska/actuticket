@@ -140,8 +140,9 @@ th, td {
 }
 
 .big-button {
+    border-width: 3px;
     font-size: 1em;
-    padding: 8px;
+    padding: 8px 16px;
     margin: 24px 0 24px 0;
 }
 
@@ -192,6 +193,45 @@ form > ul.errorlist {
 
 .pagination-arrow:hover {
   background-color: #d5d6da;
+}
+
+/* messages */
+.messages {
+  display: flex;
+  align-items: center;
+  margin-top: 12px;
+  padding-left: 12px;
+  font-size: 0.8em;
+  line-height: 1.4em;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.success {
+  background-color: rgba(11, 102, 35, 0.2);
+  color: rgba(11, 102, 35, 0.9);
+}
+
+.error {
+  background-color: rgba(220, 53, 69, 0.2);
+  color: rgba(220, 53, 69, 0.9);
+}
+
+
+.info {
+  background-color: rgba(1, 87, 155, 0.2);
+  color: rgba(1, 87, 155, 0.9);
+}
+
+.close-button {
+  padding: 8px 12px;
+  float: right;
+  font-size: 1.5em;
+  cursor: pointer;
+}
+
+.close-button:hover {
+  color: #000;
 }
 
 /* utils */

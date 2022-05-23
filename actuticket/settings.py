@@ -27,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-9c9t0udgl_lfk8y+)fi)$us-mfe-n@r8nex^^4bjr%5w8_d@$l'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv("DEBUG", False)
+DEBUG = os.getenv("DEBUG", False) == "True"
 
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
 
@@ -84,6 +84,7 @@ DATABASES = {
         'NAME': 'actuticket',
         'USER': os.getenv("DB_USER"),
         'PASSWORD': os.getenv("DB_PASSWORD"),
+        'PORT': os.getenv("DB_PORT", 5432),
         'HOST': 'localhost',
     }
 }
