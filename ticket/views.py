@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, redirect, get_object_or_404
@@ -51,7 +52,10 @@ class AddTicketView(LoginRequiredMixin, View):
             ticket.save()
             form.save_m2m()
 
-            # Inform users
+            # Show success message
+            messages.success(request, f"You have added ticket #{ticket.id}")
+
+            # Inform users by e-mail
             subject = f"actuticket | new ticket {ticket.id}"
             message = f"{ticket.created_by.first_name} {ticket.created_by.last_name} has created a new ticket " \
                       f"{ticket.id}."
@@ -77,7 +81,10 @@ class UndertakeTicketView(LoginRequiredMixin, View):
         ticket.status = 2
         ticket.save()
 
-        # Inform users
+        # Show success message
+        messages.success(request, f"You have undertaken ticket #{ticket.id}")
+
+        # Inform users by e-mail
         subject = f"actuticket | ticket {ticket.id} is undertaken"
         message = f"{ticket.undertook_by.first_name} {ticket.undertook_by.last_name} undertook ticket {ticket.id}."
         send_mail_to_all.delay(subject, message)
@@ -97,7 +104,10 @@ class CloseTicketView(LoginRequiredMixin, View):
         ticket.status = 3
         ticket.save()
 
-        # Inform users
+        # Show success message
+        messages.success(request, f"You have closed ticket #{ticket.id}")
+
+        # Inform users by e-mail
         subject = f"actuticket | ticket {ticket.id} is closed"
         message = f"{ticket.closed_by.first_name} {ticket.closed_by.last_name} closed ticket {ticket.id}."
         send_mail_to_all.delay(subject, message)
@@ -122,7 +132,10 @@ class AddCommentView(LoginRequiredMixin, View):
             comment.ticket = ticket
             comment.save()
 
-            # Inform users
+            # Show success message
+            messages.success(request, f"You have commented ticket #{ticket.id}")
+
+            # Inform users by e-mail
             subject = f"actuticket | new comment for ticket {ticket.id}"
             message = f"{comment.written_by} added comment to ticket {ticket.id}."
             send_mail_to_all.delay(subject, message)
