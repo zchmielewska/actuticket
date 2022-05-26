@@ -1,10 +1,36 @@
-from django.conf import settings
-from django.contrib.auth.models import User
-from django.core.mail import send_mail
+import random
 
 
-def send_mail_to_all(subject, message, from_email=settings.EMAIL_HOST_USER):
-    receivers = []
-    for user in User.objects.all():
-        receivers.append(user.email)
-    send_mail(subject, message, from_email, receivers)
+def generate_good_luck():
+    phrases = ["Good luck",
+               "Have fun",
+               "Best of luck",
+               "Fingers crossed",
+               "You'll do great",
+               "Break a leg",
+               "May the force be with you",
+               "May the odds ever be in your favor",
+               "You got this",
+               "Fight on",
+               "Rock on",
+               "Veel geluk",
+               "Buena suerte",
+               "Powodzenia"]
+    return random.choice(phrases)
+
+
+def generate_good_job():
+    phrases = ["Good job",
+               "Nice work",
+               "You are a hero",
+               "Congratulations",
+               "Fantastic",
+               "Excellent",
+               "Perfect",
+               "Wonderful",
+               "Marvelous",
+               "Outstanding",
+               "Dobra robota",
+               "Buen trabajo",
+               "Goed gedaan"]
+    return random.choice(phrases)

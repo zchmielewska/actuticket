@@ -1,13 +1,20 @@
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, redirect, get_object_or_404
+from django.template.loader import render_to_string
 from django.urls import reverse_lazy
 from django.utils import timezone
+from django.utils.html import strip_tags
 from django.views import View
 
 from ticket import forms, models
 from .tasks import send_mail_to_all
+from ticket.utils import utils
+
+
+DOMAIN = settings.DEFAULT_DOMAIN
 
 
 class MainView(LoginRequiredMixin, View):
@@ -56,10 +63,11 @@ class AddTicketView(LoginRequiredMixin, View):
             messages.success(request, f"You have added ticket #{ticket.id}")
 
             # Inform users by e-mail
-            subject = f"actuticket | new ticket {ticket.id}"
-            message = f"{ticket.created_by.first_name} {ticket.created_by.last_name} has created a new ticket " \
-                      f"{ticket.id}."
-            send_mail_to_all.delay(subject, message)
+            subject = f"actuticket | new ticket {ticket.id} ({ticket.title})"
+            ctx = {"ticket": ticket, "domain": DOMAIN}
+            html_message = render_to_string("email/add-ticket.html", ctx)
+            plain_message = strip_tags(html_message)
+            send_mail_to_all.delay(subject, plain_message, html_message)
 
             return redirect(reverse_lazy("main"))
         return render(request, "ticket/ticket_form.html", {"form": form})
@@ -85,9 +93,12 @@ class UndertakeTicketView(LoginRequiredMixin, View):
         messages.success(request, f"You have undertaken ticket #{ticket.id}")
 
         # Inform users by e-mail
-        subject = f"actuticket | ticket {ticket.id} is undertaken"
-        message = f"{ticket.undertook_by.first_name} {ticket.undertook_by.last_name} undertook ticket {ticket.id}."
-        send_mail_to_all.delay(subject, message)
+        subject = f"actuticket | ticket {ticket.id} ({ticket.title}) is undertaken"
+        good_luck = utils.generate_good_luck()
+        ctx = {"ticket": ticket, "good_luck": good_luck, "domain": DOMAIN}
+        html_message = render_to_string("email/undertake-ticket.html", ctx)
+        plain_message = strip_tags(html_message)
+        send_mail_to_all.delay(subject, plain_message, html_message)
 
         return redirect("ticket_detail", ticket.id)
 
@@ -108,9 +119,12 @@ class CloseTicketView(LoginRequiredMixin, View):
         messages.success(request, f"You have closed ticket #{ticket.id}")
 
         # Inform users by e-mail
-        subject = f"actuticket | ticket {ticket.id} is closed"
-        message = f"{ticket.closed_by.first_name} {ticket.closed_by.last_name} closed ticket {ticket.id}."
-        send_mail_to_all.delay(subject, message)
+        subject = f"actuticket | ticket {ticket.id} ({ticket.title}) is closed"
+        good_job = utils.generate_good_job()
+        ctx = {"ticket": ticket, "good_job": good_job, "domain": DOMAIN}
+        html_message = render_to_string("email/close-ticket.html", ctx)
+        plain_message = strip_tags(html_message)
+        send_mail_to_all.delay(subject, plain_message, html_message)
 
         return redirect("ticket_detail", ticket.id)
 
@@ -136,9 +150,11 @@ class AddCommentView(LoginRequiredMixin, View):
             messages.success(request, f"You have commented ticket #{ticket.id}")
 
             # Inform users by e-mail
-            subject = f"actuticket | new comment for ticket {ticket.id}"
-            message = f"{comment.written_by} added comment to ticket {ticket.id}."
-            send_mail_to_all.delay(subject, message)
+            subject = f"actuticket | new comment for ticket {ticket.id} ({ticket.title})"
+            ctx = {"comment": comment, "domain": DOMAIN}
+            html_message = render_to_string("email/comment-ticket.html", ctx)
+            plain_message = strip_tags(html_message)
+            send_mail_to_all.delay(subject, plain_message, html_message)
 
             return redirect("ticket_detail", ticket.id)
         return redirect("main", ticket.id)

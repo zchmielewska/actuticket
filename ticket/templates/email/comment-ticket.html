@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <p>
+        <b>{{ comment.written_by.first_name }} {{ comment.written_by.last_name }}</b> commented ticket
+        <b>{{ comment.ticket.id }} ({{ comment.ticket.title }})</b>.
+    </p>
+
+    <p>Comment:<br><i>{{ comment.message|linebreaks }}</i></p>
+
+    <p>
+        Link to the ticket:<br>
+        {{ domain }}{% url "ticket_detail" ticket_id=comment.ticket.id %}
+    </p>
+</body>
+</html>
