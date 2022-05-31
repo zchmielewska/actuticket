@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <p>
+        <b>{{ ticket.created_by.first_name }} {{ ticket.created_by.last_name }}</b> has created a new ticket <b>{{ ticket.id }}</b>.
+    </p>
+    <p>
+        Information:
+        <ul>
+            <li>title: {{ ticket.title }}</li>
+            <li>models:
+                <ul>
+                    {% for model in ticket.model.all %}
+                        <li>{{ model }}</li>
+                    {% endfor %}
+                </ul>
+            </li>
+            <li>type: {{ ticket.type }}</li>
+            <li>version: {{ ticket.version }}</li>
+            {% if ticket.information %}
+                <li>additional information: {{ ticket.information|linebreaks }}</li>
+            {% endif %}
+        </ul>
+    </p>
+    <p>
+        Link to the ticket:<br>
+        {{ domain }}{% url "ticket_detail" ticket_id=ticket.id %}
+    </p>
+</body>
+</html>

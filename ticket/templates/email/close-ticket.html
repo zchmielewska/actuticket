@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <p>
+        <b>{{ ticket.undertook_by.first_name }} {{ ticket.undertook_by.last_name }}</b> closed ticket
+        <b>{{ ticket.id }} ({{ ticket.title }})</b>.
+    </p>
+
+    <p>{{ good_job }}, {{ ticket.undertook_by.first_name }}!</p>
+
+    <p>
+        Link to the ticket:<br>
+        {{ domain }}{% url "ticket_detail" ticket_id=ticket.id %}
+    </p>
+</body>
+</html>
