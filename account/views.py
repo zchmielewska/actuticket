@@ -1,11 +1,6 @@
-from django.contrib import messages
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
-from django.core.exceptions import PermissionDenied
-from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import reverse
-from django.utils.crypto import get_random_string
+from django.shortcuts import render, redirect
 from django.views import View
 
 from account.forms import LoginForm, RegistrationForm
@@ -48,18 +43,16 @@ class RegisterView(View):
     The app uses e-mail address to authenticate so username is a consecutive number.
     """
     def get(self, request):
-        print("I'm in get")
-
         form = RegistrationForm()
         return render(request, "account/register.html", {"form": form})
 
     def post(self, request):
         form = RegistrationForm(request.POST)
-        print("form.is_valid(): ", form.is_valid())
         if form.is_valid():
             new_user = form.save(commit=False)
-            new_user.username = str(User.objects.count() + 1)
             new_user.set_password(form.cleaned_data["password"])
+            new_user.save()
+            new_user.username = new_user.id
             new_user.save()
             return render(request, "account/register_done.html", {"new_user": new_user})
         return render(request, "account/register.html", {"form": form})

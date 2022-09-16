@@ -20,6 +20,7 @@
             </li>
             <li>type: {{ ticket.type }}</li>
             <li>version: {{ ticket.version }}</li>
+            <li>deadline: {{ ticket.deadline|date:'Y-m-d' }}</li>
             {% if ticket.information %}
                 <li>additional information: {{ ticket.information|linebreaks }}</li>
             {% endif %}

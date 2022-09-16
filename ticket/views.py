@@ -150,7 +150,7 @@ class AddCommentView(LoginRequiredMixin, View):
             messages.success(request, f"You have commented ticket #{ticket.id}")
 
             # Inform users by e-mail
-            subject = f"actuticket | new comment for ticket {ticket.id} ({ticket.title})"
+            subject = f"actuticket | ticket {ticket.id} ({ticket.title}) has new comment"
             ctx = {"comment": comment, "domain": DOMAIN}
             html_message = render_to_string("email/comment-ticket.html", ctx)
             plain_message = strip_tags(html_message)

@@ -20,7 +20,7 @@
         </p>
 
         <p>
-            <span class="label">Reporting date</span><br>
+            <span class="label">Period</span><br>
             <span>{{ ticket.year }}{{ ticket.month|stringformat:"02d" }}</span>
         </p>
 
@@ -41,6 +41,11 @@
         <p>
             <span class="label">Version</span><br>
             <span>{{ ticket.version }}</span>
+        </p>
+
+        <p>
+            <span class="label">Deadline</span><br>
+            <span>{{ ticket.deadline|date:'Y-m-d' }}</span>
         </p>
 
         <p>

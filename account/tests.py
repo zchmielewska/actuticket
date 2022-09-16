@@ -40,6 +40,6 @@ class TestLoginView(ExtendedTestCase):
 
     def test_post(self):
         self.create_user()
-        response = self.client.post("/account/login/", {"email": "user@example.com", "password": "pass"})
+        self.client.post("/account/login/", {"email": "user@example.com", "password": "pass"})
         user = auth.get_user(self.client)
         self.assertTrue(user.is_authenticated)
